@@ -1,6 +1,9 @@
 #ifndef LISTA_H
 #define LISTA_H
 
+#include "includes.h"
+#include "projetil.h"
+
 template <class T>
 struct Node{
 	T info;

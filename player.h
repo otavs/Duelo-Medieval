@@ -1,24 +1,34 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "includes.h"
+
+#include "timer.h"
+#include "lista.h"
+#include "projetil.h"
+
 class Player{
 	
 	private:
 		int x, y, vx, vy, largura, altura, vida, poder, sentido, larguraAtaque, alturaAtaque, classe;
 		Lista<Projetil*> listaProjeteis;
+		Timer cooldown;
 		
 	public:
 		Player();
-		Player(int x, int y, int vx, int vy, int largura, int altura, int vida, int poder, int sentido,
-			int larguraAtaque, int alturaAtaque, int classe);
+		Player(int x, int y, int classe, int sentido);
 		void atacar(Player&);
-		void andarDireita();
-		void andarEsquerda();
-		void andarCima();
-		void andarBaixo();
+		void andarDireita(int limite);
+		void andarEsquerda(int limite);
+		void andarCima(int limite);
+		void andarBaixo(int limite);
 		void desenhar();
 		void atualizaProjeteis(Player&);
 		void desenhaProjeteis();
+		
+		void atualizaTimers();
+		
+		int getValorCooldown();
 		
 		bool operator==(Player);
 		

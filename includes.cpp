@@ -7,3 +7,7 @@ bool verificaColisao(double x1, double y1, double w1, double h1, double x2, doub
 	else 
 		return false;
 }
+
+int aleatorio(int min, int max){
+	return rand()%(max-min+1) + min;
+}

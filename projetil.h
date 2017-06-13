@@ -1,6 +1,8 @@
 #ifndef PROJETIL_H
 #define PROJETIL_H
 
+#include "includes.h"
+
 class Projetil{
 	private:
 		int x, y, largura, altura, v, sentido, tipo;

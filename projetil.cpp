@@ -1,4 +1,4 @@
-#include "includes.h"
+#include "projetil.h"
 
 Projetil::Projetil(){
 	this->x = 0; 
