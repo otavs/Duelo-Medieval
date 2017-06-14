@@ -20,6 +20,10 @@ Item::Item(int x, int y, int tipo){
 		largura = 30;
 		altura = 30;
 	}
+	else if(tipo == gema){
+		largura = 30;
+		altura = 30;
+	}
 }
 
 void Item::setX(int x){
@@ -50,6 +54,17 @@ int Item::getAltura(){
 	return altura;
 }
 
+void Item::setTipo(int tipo){
+	this->tipo = tipo;
+}
+int Item::getTipo(){
+	return tipo;
+}
+
 void Item::desenhar(){
 	al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(200, 100, 0));
+}
+
+bool Item::operator==(Item x){
+	return true;
 }

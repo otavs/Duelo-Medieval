@@ -17,6 +17,8 @@ int main(){
 	bool tecla[N_TECLAS];
 	for(int i = 0; i < N_TECLAS; i++) tecla[i] = false;
 	
+	Lista<Item> listaItens;
+	
 	ALLEGRO_DISPLAY *tela = NULL;
 	ALLEGRO_EVENT_QUEUE *filaEventos = NULL;
 	ALLEGRO_TIMER *timer = NULL;
@@ -54,8 +56,8 @@ int main(){
 	
 	Timer t(10*60); // timer teste de 10 segundos
 	t.start();
-	
-	Item item(aleatorio(0, largura), aleatorio(altura/2, altura), pocao);
+	Timer timerItens(aleatorio(2*60, 3*60));
+	timerItens.start();
 	
 	al_hide_mouse_cursor(tela);
 	
@@ -95,12 +97,40 @@ int main(){
 				player1.atualizaProjeteis(player2);
 				player2.atualizaProjeteis(player1);
 				t.update();
+				timerItens.update();
 				player1.atualizaTimers();
 				player2.atualizaTimers();
 				
+				for(int i = 0; i < listaItens.getTam(); i++){
+					if(verificaColisao(listaItens[i].getX()-listaItens[i].getLargura()/2, listaItens[i].getY() - listaItens[i].getAltura()/2, listaItens[i].getLargura(), listaItens[i].getAltura(),
+					player1.getX()-player1.getLargura()/2, player1.getY()-player1.getAltura()/2, player1.getLargura(), player1.getAltura())){
+						if(player1.getListaItens().getTam() < 3){
+							player1.pegaItem(listaItens[i]);
+							listaItens.remove(i);
+						}
+					}
+				}
+				for(int i = 0; i < listaItens.getTam(); i++){
+					if(verificaColisao(listaItens[i].getX()-listaItens[i].getLargura()/2, listaItens[i].getY() - listaItens[i].getAltura()/2, listaItens[i].getLargura(), listaItens[i].getAltura(),
+					player2.getX()-player2.getLargura()/2, player2.getY()-player2.getAltura()/2, player2.getLargura(), player2.getAltura())){
+						if(player2.getListaItens().getTam() < 3){
+							player2.pegaItem(listaItens[i]);
+							listaItens.remove(i);
+						}
+					}
+				}
+				
+				if(!timerItens.estaAtivo()){
+					listaItens.insereNoFim(Item(aleatorio(0, largura), aleatorio(altura/2, altura), aleatorio(0, 2)));
+					timerItens.setMaximo(aleatorio(2*60, 4*60));
+					timerItens.start();
+				}
+				
 				// Renderizacao:
 				al_draw_filled_rectangle(0, altura/2, largura, altura, al_map_rgba(150, 0, 150, 0.7));
-				item.desenhar();
+				for(int i = 0; i < listaItens.getTam(); i++){
+					listaItens[i].desenhar();
+				}
 				player1.desenhar();
 				player2.desenhar();
 				player1.desenhaProjeteis();
@@ -111,6 +141,20 @@ int main(){
 				al_draw_textf(arial24, al_map_rgb(255, 255, 255), 400, 50, 0, "Timer: %.0f", ceil(t.getContador()/60.0)); // funcao ceil arredonda para o maior inteiro
 				al_draw_textf(arial24, al_map_rgb(255, 255, 255), 100, 100, 0, "Cooldown: %.0f", ceil(player1.getValorCooldown()/60.0));
 				al_draw_textf(arial24, al_map_rgb(255, 255, 255), 700, 100, 0, "Cooldown: %.0f", ceil(player2.getValorCooldown()/60.0));
+				
+				al_draw_text(arial24, al_map_rgb(255, 255, 255), 100, 150, 0, "Itens:");
+				int x = 170;
+				for(int i = 0; i < player1.getListaItens().getTam(); i++){
+					al_draw_textf(arial24, al_map_rgb(255, 255, 255), x, 150, 0, "%d ", player1.getListaItens()[i].getTipo());
+					x += 35;
+				}
+				
+				al_draw_text(arial24, al_map_rgb(255, 255, 255), 700, 150, 0, "Itens:");
+				x = 770;
+				for(int i = 0; i < player2.getListaItens().getTam(); i++){
+					al_draw_textf(arial24, al_map_rgb(255, 255, 255), x, 150, 0, "%d ", player2.getListaItens()[i].getTipo());
+					x += 35;
+				}
 				
 				al_flip_display();
 				al_clear_to_color(al_map_rgb(0, 0, 0));

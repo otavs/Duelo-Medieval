@@ -14,6 +14,8 @@ class Item{
 		
 		void desenhar();
 		
+		bool operator==(Item);
+		
 		void setX(int x);
 		int getX();
 		void setY(int y);
@@ -22,6 +24,8 @@ class Item{
 		int getLargura();
 		void setAltura(int altura);
 		int getAltura();
+		void setTipo(int tipo);
+		int getTipo();
 };
 
 #endif

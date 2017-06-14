@@ -271,3 +271,11 @@ void Player::levaDano(int dano){
 		vida = 0;
 	}
 }
+
+void Player::pegaItem(Item item){
+	listaItens.insereNoFim(item);
+}
+
+Lista<Item> Player::getListaItens(){
+	return listaItens;
+}

@@ -129,4 +129,4 @@ int Lista<T>::getTam(){
 }
 
 template class Lista<Projetil*>;
-template class Lista<int>;
+template class Lista<Item>;

@@ -6,6 +6,7 @@
 #include "timer.h"
 #include "lista.h"
 #include "projetil.h"
+#include "item.h"
 
 class Player{
 	
@@ -13,6 +14,7 @@ class Player{
 		int x, y, vx, vy, largura, altura, vida, poder, sentido, larguraAtaque, alturaAtaque, classe;
 		Lista<Projetil*> listaProjeteis;
 		Timer cooldown;
+		Lista<Item> listaItens;
 		
 	public:
 		Player();
@@ -48,8 +50,12 @@ class Player{
 		int getVida();
 		void setPoder(int poder);
 		int getPoder();
-		
+
+		Lista<Item> getListaItens();
+
 		void levaDano(int dano);
+		
+		void pegaItem(Item item);
 		
 };
 

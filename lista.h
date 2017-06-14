@@ -3,6 +3,7 @@
 
 #include "includes.h"
 #include "projetil.h"
+#include "item.h"
 
 template <class T>
 struct Node{
