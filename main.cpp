@@ -13,6 +13,7 @@ int main(){
 	int fps = 60;
 	bool acabou = false;
 	int mouseX = 0, mouseY = 0;
+	int estado = menu;
 	
 	bool tecla[N_TECLAS];
 	for(int i = 0; i < N_TECLAS; i++) tecla[i] = false;
@@ -50,9 +51,11 @@ int main(){
 	al_register_event_source(filaEventos, al_get_timer_event_source(timer));
 	al_register_event_source(filaEventos, al_get_mouse_event_source());
 	
-	//Player(x, y, vx, vy, largura, altura, vida, poder, sentido, larguraAtaque, alturaAtaque, classe);
-	Player player1(100, 400, barbaro, 1);
-	Player player2(700, 400, arqueiro, 0);
+	//Player(x, y, classe, sentido);
+	Player player1(100, 400, guerreiro, 1);
+	Player player2(700, 400, guerreiro, 0);
+	
+	Player::inicializarImagens();
 	
 	Timer t(10*60); // timer teste de 10 segundos
 	t.start();
@@ -65,9 +68,38 @@ int main(){
 	
 	while(!acabou){
 		
-			ALLEGRO_EVENT evento;
-			al_wait_for_event(filaEventos, &evento);
+		ALLEGRO_EVENT evento;
+		al_wait_for_event(filaEventos, &evento);
 		
+		if(estado == menu){
+			if(evento.type == ALLEGRO_EVENT_TIMER){
+                al_set_window_title(tela, "Nome");
+				al_flip_display();
+				al_clear_to_color(al_map_rgb(0, 0, 0));
+			}
+			else if(evento.type == ALLEGRO_EVENT_MOUSE_AXES){
+				mouseX = evento.mouse.x;
+				mouseY = evento.mouse.y;
+			}
+			else if(evento.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
+				if(evento.mouse.button == 1){
+					estado = jogando;				
+				}
+			}
+			/*else if(evento.type == ALLEGRO_EVENT_DISPLAY_RESIZE){
+				al_resize_display(tela, evento.display.width, evento.display.height);	
+				sx = al_get_display_width(tela) / (float)largura;
+				sy = al_get_display_height(tela) / (float)altura;
+				ALLEGRO_TRANSFORM trans;
+				al_identity_transform(&trans);
+				al_scale_transform(&trans, sx, sy);
+				al_use_transform(&trans);
+			}*/
+			else if(evento.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
+				acabou = true;
+			}
+		}
+		else if(estado == jogando){		
 			if(evento.type == ALLEGRO_EVENT_TIMER){
 				if(tecla[UP]){
 					player1.andarCima(altura/2);
@@ -122,7 +154,7 @@ int main(){
 				
 				if(!timerItens.estaAtivo()){
 					listaItens.insereNoFim(Item(aleatorio(0, largura), aleatorio(altura/2, altura), aleatorio(0, 2)));
-					timerItens.setMaximo(aleatorio(2*60, 4*60));
+					timerItens.setMaximo(aleatorio(10*60, 20*60));
 					timerItens.start();
 				}
 				
@@ -131,8 +163,14 @@ int main(){
 				for(int i = 0; i < listaItens.getTam(); i++){
 					listaItens[i].desenhar();
 				}
-				player1.desenhar();
-				player2.desenhar();
+				if(player1.getY() < player2.getY()){
+					player1.desenhar(tecla[UP] || tecla[DOWN] || tecla[LEFT] || tecla[RIGHT]);
+					player2.desenhar(tecla[T] || tecla[G] || tecla[F] || tecla[H]);
+				}else{
+					player2.desenhar(tecla[T] || tecla[G] || tecla[F] || tecla[H]);	
+					player1.desenhar(tecla[UP] || tecla[DOWN] || tecla[LEFT] || tecla[RIGHT]);
+				}
+				
 				player1.desenhaProjeteis();
 				player2.desenhaProjeteis();
 				
@@ -200,6 +238,30 @@ int main(){
 						tecla[ESC] = true;
 						acabou = true;
 						break;
+					case ALLEGRO_KEY_1:
+						tecla[K1] = true;
+						player2.usaItem(0);
+						break;
+					case ALLEGRO_KEY_2:
+						tecla[K2] = true;
+						player2.usaItem(1);
+						break;
+					case ALLEGRO_KEY_3:
+						tecla[K3] = true;
+						player2.usaItem(2);
+						break;
+					case ALLEGRO_KEY_8:
+						tecla[K8] = true;
+						player1.usaItem(0);
+						break;
+					case ALLEGRO_KEY_9:
+						tecla[K9] = true;
+						player1.usaItem(1);
+						break;
+					case ALLEGRO_KEY_0:
+						tecla[K0] = true;
+						player1.usaItem(2);
+						break;
 				}
 			}
 			else if(evento.type == ALLEGRO_EVENT_KEY_UP){
@@ -237,6 +299,24 @@ int main(){
 					case ALLEGRO_KEY_ESCAPE:
 						tecla[ESC] = false;
 						break;
+					case ALLEGRO_KEY_1:
+						tecla[K1] = false;
+						break;
+					case ALLEGRO_KEY_2:
+						tecla[K2] = false;
+						break;
+					case ALLEGRO_KEY_3:
+						tecla[K3] = false;
+						break;
+					case ALLEGRO_KEY_8:
+						tecla[K8] = false;
+						break;
+					case ALLEGRO_KEY_9:
+						tecla[K9] = false;
+						break;
+					case ALLEGRO_KEY_0:
+						tecla[K0] = false;
+						break;
 				}
 			}
 			else if(evento.type == ALLEGRO_EVENT_MOUSE_AXES){
@@ -252,7 +332,7 @@ int main(){
 				al_scale_transform(&trans, sx, sy);
 				al_use_transform(&trans);
 			}*/
-			
+		}
 	}
 
 	return 0;

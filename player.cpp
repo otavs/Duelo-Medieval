@@ -23,46 +23,54 @@ Player::Player(int x, int y, int classe, int sentido){
 	if(classe == guerreiro){
 		vx = 5;
 		vy = 4;
-		largura = 40;
+		largura = 50;
 		altura = 80;
-		vida = 100;
+		vida = 50;
 		poder = 5;
 		larguraAtaque = 40;
 		alturaAtaque = 20;
 		cooldown = Timer(3*60);
+		timerAnimacaoAndar = Timer(39); // 10/60s para cada frame (sao 4 frames), de 0 a 3
+		efeitoGema = Timer(10*60);
 	}
 	else if(classe == mago){
 		vx = 5;
 		vy = 4;
 		largura = 40;
 		altura = 80;
-		vida = 100;
+		vida = 50;
 		poder = 8;
 		larguraAtaque = 40;
 		alturaAtaque = 20;
 		cooldown = Timer(3*60);
+		timerAnimacaoAndar = Timer(39); 
+		efeitoGema = Timer(10*60);
 	}
 	else if(classe == arqueiro){
 		vx = 6;
 		vy = 4;
 		largura = 40;
 		altura = 80;
-		vida = 80;
+		vida = 50;
 		poder = 3;
 		larguraAtaque = 40;
 		alturaAtaque = 20;
 		cooldown = Timer(1*60);
+		timerAnimacaoAndar = Timer(39);
+		efeitoGema = Timer(10*60);
 	}
 	else if(classe == barbaro){
 		vx = 3;
 		vy = 2;
 		largura = 50;
 		altura = 100;
-		vida = 150;
-		poder = 25;
+		vida = 60;
+		poder = 10;
 		larguraAtaque = 50;
 		alturaAtaque = 20;
 		cooldown = Timer(4*60);
+		timerAnimacaoAndar = Timer(39);
+		efeitoGema = Timer(10*60);
 	}
 	
 	
@@ -155,10 +163,30 @@ void Player::andarBaixo(int limite){
 	}
 }
 
-void Player::desenhar(){
+void Player::desenhar(bool movimento){
 	switch(classe){
-		case guerreiro: 
-			al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 255, 255));
+		case guerreiro:
+			if(sentido == 1){
+				if(!movimento){
+					al_draw_bitmap(img_guerreiro[0], x-largura/2-41, y-altura/2-14, 0);
+					timerAnimacaoAndar.start();
+				}else{
+					al_draw_bitmap(img_guerreiro[timerAnimacaoAndar.getContador()/10], x-largura/2-41, y-altura/2-14, 0);
+					if(!timerAnimacaoAndar.estaAtivo())
+						timerAnimacaoAndar.start();
+				}
+			}
+			else if(sentido == 0){
+				if(!movimento){
+					al_draw_bitmap(img_guerreiro[0], x-largura/2-47, y-altura/2-14, ALLEGRO_FLIP_HORIZONTAL);
+					timerAnimacaoAndar.start();
+				}else{
+					al_draw_bitmap(img_guerreiro[timerAnimacaoAndar.getContador()/10], x-largura/2-47, y-altura/2-14, ALLEGRO_FLIP_HORIZONTAL);
+					if(!timerAnimacaoAndar.estaAtivo())
+						timerAnimacaoAndar.start();
+				}
+			}
+			//al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgba(255, 0, 0, 0.1));
 			break;
 		case mago: 
 			al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
@@ -197,6 +225,11 @@ void Player::desenhaProjeteis(){
 
 void Player::atualizaTimers(){
 	cooldown.update();
+	timerAnimacaoAndar.update();
+	efeitoGema.update();
+	if(efeitoGema.getContador() == 1){
+		poder -= 20;
+	}
 }
 
 int Player::getValorCooldown(){
@@ -276,6 +309,33 @@ void Player::pegaItem(Item item){
 	listaItens.insereNoFim(item);
 }
 
+void Player::usaItem(int i){
+	if(i < listaItens.getTam()){
+		switch(listaItens[i].getTipo()){
+			case pocao:
+				vida += 20;
+				break;
+			case runa:
+				vx += 4;
+				break;
+			case gema:
+				poder += 20;
+				efeitoGema.start();
+				break;
+		}
+		listaItens.remove(i);
+	}
+}
+
 Lista<Item> Player::getListaItens(){
 	return listaItens;
+}
+
+ALLEGRO_BITMAP* Player::img_guerreiro[4];
+
+void Player::inicializarImagens(){
+	img_guerreiro[0] = al_load_bitmap("imagens/guerreiro_dir_1.png");
+	img_guerreiro[1] = al_load_bitmap("imagens/guerreiro_dir_2.png");
+	img_guerreiro[2] = al_load_bitmap("imagens/guerreiro_dir_3.png");
+	img_guerreiro[3] = al_load_bitmap("imagens/guerreiro_dir_4.png");
 }

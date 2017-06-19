@@ -15,6 +15,10 @@ class Player{
 		Lista<Projetil*> listaProjeteis;
 		Timer cooldown;
 		Lista<Item> listaItens;
+		ALLEGRO_BITMAP *imagem[4];
+		static ALLEGRO_BITMAP *img_guerreiro[4];
+		Timer timerAnimacaoAndar;
+		Timer efeitoGema;
 		
 	public:
 		Player();
@@ -24,7 +28,7 @@ class Player{
 		void andarEsquerda(int limite);
 		void andarCima(int limite);
 		void andarBaixo(int limite);
-		void desenhar();
+		void desenhar(bool movimento);
 		void atualizaProjeteis(Player&);
 		void desenhaProjeteis();
 		
@@ -56,6 +60,10 @@ class Player{
 		void levaDano(int dano);
 		
 		void pegaItem(Item item);
+		
+		void usaItem(int i);
+		
+		static void inicializarImagens();
 		
 };
 

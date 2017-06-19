@@ -62,7 +62,16 @@ int Item::getTipo(){
 }
 
 void Item::desenhar(){
-	al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(200, 100, 0));
+	if(tipo == pocao){
+		al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 0, 0));
+	}
+	else if(tipo == runa){
+		al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
+	}
+	else if(tipo == gema){
+		al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 0, 255));
+	}
+	
 }
 
 bool Item::operator==(Item x){
