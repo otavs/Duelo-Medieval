@@ -69,3 +69,10 @@ void Projetil::setAltura(int altura){
 int Projetil::getAltura(){
 	return altura;
 }
+void Projetil::setTipo(int tipo){
+	this->tipo = tipo;
+}
+int Projetil::getTipo(){
+	return tipo;
+}
+

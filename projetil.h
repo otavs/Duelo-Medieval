@@ -24,6 +24,8 @@ class Projetil{
 		int getLargura();
 		void setAltura(int altura);
 		int getAltura();
+		void setTipo(int tipo);
+		int getTipo();
 			
 };
 

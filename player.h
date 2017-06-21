@@ -11,7 +11,7 @@
 class Player{
 	
 	private:
-		int x, y, vx, vy, largura, altura, vida, poder, sentido, larguraAtaque, alturaAtaque, classe;
+		int x, y, vx, vy, largura, altura, vida, poder, sentido, larguraAtaque, alturaAtaque, classe, vidaMax;
 		Lista<Projetil*> listaProjeteis;
 		Timer cooldown;
 		Lista<Item> listaItens;
@@ -54,6 +54,9 @@ class Player{
 		int getVida();
 		void setPoder(int poder);
 		int getPoder();
+		void setVidaMax(int vidaMax);
+		int getVidaMax();
+		Timer getCooldown();
 
 		Lista<Item> getListaItens();
 

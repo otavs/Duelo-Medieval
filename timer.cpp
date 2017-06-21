@@ -16,6 +16,10 @@ void Timer::setMaximo(int max){
 	maximo = max;
 }
 
+int Timer::getMaximo(){
+	return maximo;
+}
+
 void Timer::update(){
 	if(ativo){
 		contador--;

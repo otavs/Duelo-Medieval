@@ -13,6 +13,7 @@ Player::Player(){
 	this->larguraAtaque = 0;
 	this->alturaAtaque = 0;
 	this->classe = 0;
+	this->vidaMax = 0;
 }
 
 Player::Player(int x, int y, int classe, int sentido){
@@ -26,6 +27,7 @@ Player::Player(int x, int y, int classe, int sentido){
 		largura = 50;
 		altura = 80;
 		vida = 50;
+		vidaMax = 50;
 		poder = 5;
 		larguraAtaque = 40;
 		alturaAtaque = 20;
@@ -39,6 +41,7 @@ Player::Player(int x, int y, int classe, int sentido){
 		largura = 40;
 		altura = 80;
 		vida = 50;
+		vidaMax = 50;
 		poder = 8;
 		larguraAtaque = 40;
 		alturaAtaque = 20;
@@ -52,6 +55,7 @@ Player::Player(int x, int y, int classe, int sentido){
 		largura = 40;
 		altura = 80;
 		vida = 50;
+		vidaMax = 50;
 		poder = 3;
 		larguraAtaque = 40;
 		alturaAtaque = 20;
@@ -62,11 +66,12 @@ Player::Player(int x, int y, int classe, int sentido){
 	else if(classe == barbaro){
 		vx = 3;
 		vy = 2;
-		largura = 50;
-		altura = 100;
+		largura = 40;
+		altura = 80;
 		vida = 60;
+		vidaMax = 60;
 		poder = 10;
-		larguraAtaque = 50;
+		larguraAtaque = 40;
 		alturaAtaque = 20;
 		cooldown = Timer(4*60);
 		timerAnimacaoAndar = Timer(39);
@@ -116,14 +121,14 @@ void Player::atacar(Player& p2){
 	
 	if(classe == mago){	
 		if(!cooldown.estaAtivo()){
-			listaProjeteis.insereNoInicio(new Projetil(x, y, 20, 20, 5, sentido, 0));
+			listaProjeteis.insereNoInicio(new Projetil(x, y, 20, 20, 5, sentido, magia));
 			cooldown.start();
 		}
 	}
 	
 	if(classe == arqueiro){	
 		if(!cooldown.estaAtivo()){
-			listaProjeteis.insereNoInicio(new Projetil(x, y, 20, 20, 10, sentido, 0));
+			listaProjeteis.insereNoInicio(new Projetil(x, y, 50, 20, 10, sentido, flecha));
 			cooldown.start();
 		}
 	}
@@ -212,7 +217,12 @@ void Player::atualizaProjeteis(Player& p2){
 		double w2 = p2.getLargura();
 		double h2 = p2.getAltura();
 		if( verificaColisao(x1, y1, w1, h1, x2, y2, w2, h2) ){
-			p2.levaDano(getPoder());
+			if(listaProjeteis[i]->getTipo() == runaPoder){
+				p2.levaDano(20);
+			}
+			else{
+				p2.levaDano(getPoder());
+			}
 			listaProjeteis.remove(i);
 		}
 	}
@@ -294,6 +304,18 @@ int Player::getPoder(){
 	return poder;
 }
 
+void Player::setVidaMax(int vidaMax){
+	this->vidaMax = vidaMax;
+}
+		
+int Player::getVidaMax(){
+	return vidaMax;
+}
+
+Timer Player::getCooldown(){
+	return cooldown;
+}
+
 bool Player::operator==(Player x){
 	return true;
 }
@@ -314,9 +336,12 @@ void Player::usaItem(int i){
 		switch(listaItens[i].getTipo()){
 			case pocao:
 				vida += 20;
+				if(vida > vidaMax){
+					vida = vidaMax;
+				}
 				break;
 			case runa:
-				vx += 4;
+				listaProjeteis.insereNoInicio(new Projetil(x, y, 60, 30, 7, sentido, runaPoder));
 				break;
 			case gema:
 				poder += 20;

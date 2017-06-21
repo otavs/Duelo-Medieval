@@ -13,6 +13,7 @@ class Timer{
 		Timer();
 		Timer(int max);
 		void setMaximo(int max);
+		int getMaximo();
 		void start();
 		void pause();
 		void stop();
