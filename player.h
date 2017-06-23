@@ -17,6 +17,9 @@ class Player{
 		Lista<Item> listaItens;
 		ALLEGRO_BITMAP *imagem[4];
 		static ALLEGRO_BITMAP *img_guerreiro[4];
+		static ALLEGRO_BITMAP *img_arqueiro[4];
+		static ALLEGRO_BITMAP *img_mago[4];
+		static ALLEGRO_BITMAP *img_barbaro[4];
 		Timer timerAnimacaoAndar;
 		Timer efeitoGema;
 		

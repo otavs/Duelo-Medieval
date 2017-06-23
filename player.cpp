@@ -34,6 +34,8 @@ Player::Player(int x, int y, int classe, int sentido){
 		cooldown = Timer(3*60);
 		timerAnimacaoAndar = Timer(39); // 10/60s para cada frame (sao 4 frames), de 0 a 3
 		efeitoGema = Timer(10*60);
+		for(int i = 0; i < 4; i++)
+			imagem[i] = img_guerreiro[i];
 	}
 	else if(classe == mago){
 		vx = 5;
@@ -48,6 +50,8 @@ Player::Player(int x, int y, int classe, int sentido){
 		cooldown = Timer(3*60);
 		timerAnimacaoAndar = Timer(39); 
 		efeitoGema = Timer(10*60);
+		for(int i = 0; i < 4; i++)
+			imagem[i] = img_mago[i];
 	}
 	else if(classe == arqueiro){
 		vx = 6;
@@ -62,6 +66,8 @@ Player::Player(int x, int y, int classe, int sentido){
 		cooldown = Timer(1*60);
 		timerAnimacaoAndar = Timer(39);
 		efeitoGema = Timer(10*60);
+		for(int i = 0; i < 4; i++)
+			imagem[i] = img_arqueiro[i];
 	}
 	else if(classe == barbaro){
 		vx = 3;
@@ -76,6 +82,8 @@ Player::Player(int x, int y, int classe, int sentido){
 		cooldown = Timer(4*60);
 		timerAnimacaoAndar = Timer(39);
 		efeitoGema = Timer(10*60);
+		for(int i = 0; i < 4; i++)
+			imagem[i] = img_barbaro[i];
 	}
 	
 	
@@ -169,40 +177,29 @@ void Player::andarBaixo(int limite){
 }
 
 void Player::desenhar(bool movimento){
-	switch(classe){
-		case guerreiro:
-			if(sentido == 1){
-				if(!movimento){
-					al_draw_bitmap(img_guerreiro[0], x-largura/2-41, y-altura/2-14, 0);
-					timerAnimacaoAndar.start();
-				}else{
-					al_draw_bitmap(img_guerreiro[timerAnimacaoAndar.getContador()/10], x-largura/2-41, y-altura/2-14, 0);
-					if(!timerAnimacaoAndar.estaAtivo())
-						timerAnimacaoAndar.start();
-				}
-			}
-			else if(sentido == 0){
-				if(!movimento){
-					al_draw_bitmap(img_guerreiro[0], x-largura/2-47, y-altura/2-14, ALLEGRO_FLIP_HORIZONTAL);
-					timerAnimacaoAndar.start();
-				}else{
-					al_draw_bitmap(img_guerreiro[timerAnimacaoAndar.getContador()/10], x-largura/2-47, y-altura/2-14, ALLEGRO_FLIP_HORIZONTAL);
-					if(!timerAnimacaoAndar.estaAtivo())
-						timerAnimacaoAndar.start();
-				}
-			}
-			//al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgba(255, 0, 0, 0.1));
-			break;
-		case mago: 
-			al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
-			break;
-		case barbaro:
-			al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 255, 0));
-			break;
-		case arqueiro:
-			al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 255));
-			break;
+
+	if(sentido == 1){
+		if(!movimento){
+			al_draw_bitmap(imagem[0], x-largura/2-41, y-altura/2-14, 0);
+			timerAnimacaoAndar.start();
+		}else{
+			al_draw_bitmap(imagem[timerAnimacaoAndar.getContador()/10], x-largura/2-41, y-altura/2-14, 0);
+			if(!timerAnimacaoAndar.estaAtivo())
+				timerAnimacaoAndar.start();
+		}
 	}
+	else if(sentido == 0){
+		if(!movimento){
+			al_draw_bitmap(imagem[0], x-largura/2-47, y-altura/2-14, ALLEGRO_FLIP_HORIZONTAL);
+			timerAnimacaoAndar.start();
+		}else{
+			al_draw_bitmap(imagem[timerAnimacaoAndar.getContador()/10], x-largura/2-47, y-altura/2-14, ALLEGRO_FLIP_HORIZONTAL);
+			if(!timerAnimacaoAndar.estaAtivo())
+				timerAnimacaoAndar.start();
+		}
+	}
+	//al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgba(255, 0, 0, 0.1));
+		
 }
 
 void Player::atualizaProjeteis(Player& p2){
@@ -357,10 +354,25 @@ Lista<Item> Player::getListaItens(){
 }
 
 ALLEGRO_BITMAP* Player::img_guerreiro[4];
+ALLEGRO_BITMAP* Player::img_arqueiro[4];
+ALLEGRO_BITMAP* Player::img_mago[4];
+ALLEGRO_BITMAP* Player::img_barbaro[4];
 
 void Player::inicializarImagens(){
-	img_guerreiro[0] = al_load_bitmap("imagens/guerreiro_dir_1.png");
-	img_guerreiro[1] = al_load_bitmap("imagens/guerreiro_dir_2.png");
-	img_guerreiro[2] = al_load_bitmap("imagens/guerreiro_dir_3.png");
-	img_guerreiro[3] = al_load_bitmap("imagens/guerreiro_dir_4.png");
+	img_guerreiro[0] = al_load_bitmap("imagens/guerreiro_1.png");
+	img_guerreiro[1] = al_load_bitmap("imagens/guerreiro_2.png");
+	img_guerreiro[2] = al_load_bitmap("imagens/guerreiro_3.png");
+	img_guerreiro[3] = al_load_bitmap("imagens/guerreiro_4.png");
+	img_arqueiro[0] = al_load_bitmap("imagens/arqueiro_1.png");
+	img_arqueiro[1] = al_load_bitmap("imagens/arqueiro_2.png");
+	img_arqueiro[2] = al_load_bitmap("imagens/arqueiro_3.png");
+	img_arqueiro[3] = al_load_bitmap("imagens/arqueiro_4.png");
+	img_mago[0] = al_load_bitmap("imagens/mago_1.png");
+	img_mago[1] = al_load_bitmap("imagens/mago_2.png");
+	img_mago[2] = al_load_bitmap("imagens/mago_3.png");
+	img_mago[3] = al_load_bitmap("imagens/mago_4.png");
+	img_barbaro[0] = al_load_bitmap("imagens/barbaro_1.png");
+	img_barbaro[1] = al_load_bitmap("imagens/barbaro_2.png");
+	img_barbaro[2] = al_load_bitmap("imagens/barbaro_3.png");
+	img_barbaro[3] = al_load_bitmap("imagens/barbaro_4.png");
 }
