@@ -21,9 +21,9 @@ using namespace std;
 enum teclas{A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
 	K0, K1, K2, K3, K4, K5, K6, K7, K8, K9, ESC, TAB, CAPSLOCK, LSHIFT, RSHIFT, ALT, ALTGR, LCTRL, RCTRL, SPACE, ENTER, BACKSPACE, 
 	UP, DOWN, LEFT, RIGHT};
-enum classes{guerreiro, mago, arqueiro, barbaro};
+enum classes{guerreiro, mago, arqueiro, barbaro, caracolaladofaminto, onigiri};
 enum itens{pocao, runa, gema};
-enum projetil{flecha, magia, runaPoder};
+enum projetil{flecha, magia, runaPoder, laser};
 enum estados{menu, instrucoes, escolhaClasse, escolhaCenario, jogando, gameOver};
 
 bool verificaColisao(double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2);

@@ -1,7 +1,7 @@
 #include "projetil.h"
 
 Projetil::Projetil(){
-	this->x = 0; 
+	this->x = 0;
 	this->y = 0;
 	this->v = 0;
 	this->largura = 0;
@@ -28,7 +28,42 @@ void Projetil::andar(){
 }
 
 void Projetil::desenhar(){
-	al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 0, 255));
+    if(sentido == 1){
+        if(tipo == flecha){
+            //al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 0, 255));
+            al_draw_bitmap(img_flecha, x-largura/2, y-altura/2, 0);
+        }
+        else if(tipo == magia){
+            //al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
+            al_draw_bitmap(img_magia, x-largura/2, y-altura/2, 0);
+        }
+        else if(tipo == runaPoder){
+            //al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 0, 0));
+            al_draw_bitmap(img_runaPoder, x-largura/2, y-altura/2, 0);
+        }
+        else if(tipo == laser){
+            al_draw_filled_rounded_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, 4, 4, al_map_rgb(12, 12, 137));
+            al_draw_rounded_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, 4, 4, al_map_rgb(145, 238, 255), 3);
+        }
+    }
+    if(sentido == 0){
+        if(tipo == flecha){
+            //al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 0, 255));
+            al_draw_bitmap(img_flecha, x-largura/2, y-altura/2, ALLEGRO_FLIP_HORIZONTAL);
+        }
+        else if(tipo == magia){
+            //al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
+            al_draw_bitmap(img_magia, x-largura/2, y-altura/2, ALLEGRO_FLIP_HORIZONTAL);
+        }
+        else if(tipo == runaPoder){
+            //al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 0, 0));
+            al_draw_bitmap(img_runaPoder, x-largura/2, y-altura/2, ALLEGRO_FLIP_HORIZONTAL);
+        }
+        else if(tipo == laser){
+            al_draw_filled_rounded_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, 4, 4, al_map_rgb(12, 12, 137));
+            al_draw_rounded_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, 4, 4, al_map_rgb(145, 238, 255), 3);
+        }
+    }
 }
 
 bool Projetil::operator==(Projetil p){
@@ -76,3 +111,12 @@ int Projetil::getTipo(){
 	return tipo;
 }
 
+ALLEGRO_BITMAP* Projetil::img_flecha;
+ALLEGRO_BITMAP* Projetil::img_runaPoder;
+ALLEGRO_BITMAP* Projetil::img_magia;
+
+void Projetil::inicializarImagens(){
+	img_flecha = al_load_bitmap("imagens/flecha.png");
+	img_runaPoder = al_load_bitmap("imagens/runaPoder.png");
+	img_magia = al_load_bitmap("imagens/magia.png");
+}

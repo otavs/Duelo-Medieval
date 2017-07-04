@@ -6,14 +6,17 @@
 class Projetil{
 	private:
 		int x, y, largura, altura, v, sentido, tipo;
-		
+        static ALLEGRO_BITMAP *img_flecha;
+		static ALLEGRO_BITMAP *img_magia;
+		static ALLEGRO_BITMAP *img_runaPoder;
+
 	public:
 		Projetil();
 		Projetil(int x, int y, int largura, int altura, int v, int sentido, int tipo);
 		void andar();
 		void desenhar();
 		bool operator==(Projetil);
-		
+
 		void setX(int x);
 		int getX();
 		void setY(int y);
@@ -26,7 +29,8 @@ class Projetil{
 		int getAltura();
 		void setTipo(int tipo);
 		int getTipo();
-			
+		static void inicializarImagens();
+
 };
 
 

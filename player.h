@@ -9,20 +9,45 @@
 #include "item.h"
 
 class Player{
-	
+
 	private:
 		int x, y, vx, vy, largura, altura, vida, poder, sentido, larguraAtaque, alturaAtaque, classe, vidaMax;
 		Lista<Projetil*> listaProjeteis;
 		Timer cooldown;
 		Lista<Item> listaItens;
+
 		ALLEGRO_BITMAP *imagem[4];
+		ALLEGRO_BITMAP *imagem_aura[4];
+		ALLEGRO_BITMAP *imagem_atacando;
+		ALLEGRO_BITMAP *imagem_aura_atacando;
+
 		static ALLEGRO_BITMAP *img_guerreiro[4];
 		static ALLEGRO_BITMAP *img_arqueiro[4];
 		static ALLEGRO_BITMAP *img_mago[4];
 		static ALLEGRO_BITMAP *img_barbaro[4];
+		static ALLEGRO_BITMAP *img_caracolaladofaminto[2];
+		static ALLEGRO_BITMAP *img_onigiri;
+
+        static ALLEGRO_BITMAP *img_guerreiro_aura[4];
+		static ALLEGRO_BITMAP *img_arqueiro_aura[4];
+		static ALLEGRO_BITMAP *img_mago_aura[4];
+		static ALLEGRO_BITMAP *img_barbaro_aura[4];
+		static ALLEGRO_BITMAP *img_caracolaladofaminto_aura[2];
+		static ALLEGRO_BITMAP *img_onigiri_aura;
+
+		static ALLEGRO_BITMAP *img_guerreiro_atacando;
+		static ALLEGRO_BITMAP *img_mago_atacando;
+		static ALLEGRO_BITMAP *img_arqueiro_atacando;
+		static ALLEGRO_BITMAP *img_barbaro_atacando;
+
+        static ALLEGRO_BITMAP *img_guerreiro_atacando_aura;
+		static ALLEGRO_BITMAP *img_mago_atacando_aura;
+		static ALLEGRO_BITMAP *img_arqueiro_atacando_aura;
+		static ALLEGRO_BITMAP *img_barbaro_atacando_aura;
+
 		Timer timerAnimacaoAndar;
 		Timer efeitoGema;
-		
+
 	public:
 		Player();
 		Player(int x, int y, int classe, int sentido);
@@ -34,13 +59,13 @@ class Player{
 		void desenhar(bool movimento);
 		void atualizaProjeteis(Player&);
 		void desenhaProjeteis();
-		
+
 		void atualizaTimers();
-		
+
 		int getValorCooldown();
-		
+
 		bool operator==(Player);
-		
+
 		void setX(int x);
 		int getX();
 		void setY(int y);
@@ -64,13 +89,14 @@ class Player{
 		Lista<Item> getListaItens();
 
 		void levaDano(int dano);
-		
+
 		void pegaItem(Item item);
-		
+
 		void usaItem(int i);
-		
+
 		static void inicializarImagens();
-		
+
+		static void desenharImagem(int seletor, int x, int y);
 };
 
 #endif

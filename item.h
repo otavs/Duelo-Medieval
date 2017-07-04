@@ -4,18 +4,21 @@
 #include "includes.h"
 
 class Item{
-	
+
 	private:
 		int x, y, altura, largura, tipo;
-		
+        static ALLEGRO_BITMAP *img_pocao;
+		static ALLEGRO_BITMAP *img_runa;
+		static ALLEGRO_BITMAP *img_gema;
+
 	public:
 		Item();
 		Item(int x, int y, int tipo);
-		
+
 		void desenhar();
-		
+
 		bool operator==(Item);
-		
+
 		void setX(int x);
 		int getX();
 		void setY(int y);
@@ -26,6 +29,8 @@ class Item{
 		int getAltura();
 		void setTipo(int tipo);
 		int getTipo();
+		static void inicializarImagens();
+		static void desenharImagem(int seletor, int x, int y);
 };
 
 #endif

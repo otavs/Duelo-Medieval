@@ -63,17 +63,42 @@ int Item::getTipo(){
 
 void Item::desenhar(){
 	if(tipo == pocao){
-		al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 0, 0));
+        al_draw_bitmap(img_pocao, x-largura/2, y-altura/2, 0);
+		//al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(255, 0, 0));
 	}
 	else if(tipo == runa){
-		al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
+        al_draw_bitmap(img_runa, x-largura/2, y-altura/2, 0);
+		//al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 255, 0));
 	}
 	else if(tipo == gema){
-		al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 0, 255));
+	    al_draw_bitmap(img_gema, x-largura/2, y-altura/2, 0);
+		//al_draw_filled_rectangle(x-largura/2, y-altura/2, x+largura/2, y+altura/2, al_map_rgb(0, 0, 255));
 	}
-	
+
 }
 
 bool Item::operator==(Item x){
 	return true;
+}
+
+ALLEGRO_BITMAP* Item::img_pocao;
+ALLEGRO_BITMAP* Item::img_runa;
+ALLEGRO_BITMAP* Item::img_gema;
+
+void Item::inicializarImagens(){
+	img_pocao = al_load_bitmap("imagens/pocao.png");
+	img_runa = al_load_bitmap("imagens/runa.png");
+	img_gema = al_load_bitmap("imagens/gema.png");
+
+}
+
+void Item::desenharImagem(int seletor,int x, int y){
+    if(seletor == 0){
+        al_draw_bitmap(img_pocao, x, y, 0);
+    }
+    else if(seletor == 1){
+        al_draw_bitmap(img_runa, x, y, 0);
+    }else if(seletor == 2){
+        al_draw_bitmap(img_gema, x, y, 0);
+    }
 }
