@@ -307,7 +307,7 @@ int main(){
                     	al_draw_bitmap(imgSeletorP1, 507, 201, 0);
 					}
                     else if(seletorP1 == 3){
-                    	al_draw_rectangle(600, 200, 680, 340, al_map_rgb(255, 0, 0), 5);
+                    	al_draw_rectangle(600, 270, 680, 410, al_map_rgb(255, 0, 0), 5);
                     	al_draw_bitmap(imgSeletorP1, 607, 201, 0);
 					}
 					
