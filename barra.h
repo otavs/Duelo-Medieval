@@ -10,7 +10,7 @@ class Barra{
 	public:
 		Barra();
 		Barra(int x1, int y1, int largura, int altura, int valorMax, ALLEGRO_COLOR cor);	
-		desenhar(int valor);
+		void desenhar(int valor);
 };
 
 
